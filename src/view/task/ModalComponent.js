@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import specialCharacters from "escape-unescape";
 
-import { formatDateJSONtoBR } from '../../util/date';
-import { isPropried, getTaskStatus } from '../../util/libObject';
+//import { formatDateJSONtoBR } from '../../util/date';
+//import { isPropried, getTaskStatus } from '../../util/libObject';
 
 class ModalComponent extends Component {
 
@@ -43,7 +43,7 @@ class ModalComponent extends Component {
         code = specialCharacters.escape(code);
 
         var db = firebase.database();
-        var ref = db.ref(`user/RDfOBwn0IBTetKL2kVwep2zrSRm2/project/${this.props.projectId}/task/${this.props.taskId}/component/${this.props.component}`)
+        var ref = db.ref(`user/0SB26bRlqVRaLTNrqzRNBg0JaDQ2/project/${this.props.projectId}/task/${this.props.taskId}/component/${this.props.component}`)
         ref.child('code').set(code);
     }
 

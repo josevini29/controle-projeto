@@ -3,8 +3,7 @@ import * as firebase from 'firebase';
 import renderHTML from 'react-render-html';
 
 import NavBar from '../../util/navbar';
-import { formatDateJSONtoBR } from '../../util/date';
-import { isPropried, getTaskStatus } from '../../util/libObject';
+import { isPropried } from '../../util/libObject';
 import ModalComponent from './ModalComponent';
 
 class Task extends Component {
@@ -24,7 +23,7 @@ class Task extends Component {
 
     componentWillMount() {
         var db = firebase.database();
-        var ref = db.ref(`user/RDfOBwn0IBTetKL2kVwep2zrSRm2/project/${this.props.match.params.projectId}/task/${this.props.match.params.taskId}`);
+        var ref = db.ref(`user/0SB26bRlqVRaLTNrqzRNBg0JaDQ2/project/${this.props.match.params.projectId}/task/${this.props.match.params.taskId}`);
 
         ref.on("value", (snapshot) => {
             const response = snapshot.val();
@@ -67,7 +66,7 @@ class Task extends Component {
                                 {this.state.components.map((component, index) => (
                                     <a
                                         key={component.component}
-                                        className={`list-group-item list-group-item-action ${index == 0 ? 'active' : ''}`}
+                                        className={`list-group-item list-group-item-action ${index === 0 ? 'active' : ''}`}
                                         id={`list-${component.component}`}
                                         data-toggle="list"
                                         href={`#list-${component.component}-code`}
@@ -84,7 +83,7 @@ class Task extends Component {
                                 {this.state.components.map((component, index) => (
                                     <div
                                         key={component.component}
-                                        className={`tab-pane fade ${index == 0 ? 'show active' : ''}`}
+                                        className={`tab-pane fade ${index === 0 ? 'show active' : ''}`}
                                         id={`list-${component.component}-code`}
                                         role="tabpanel"
                                         aria-labelledby={`list-${component.component}`}>

@@ -4,11 +4,12 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import * as firebase from 'firebase';
 
+import Login from './view/auth/login';
 import Main from './view/main/main';
-import Project from './view/project/project'
-import Task from './view/task/task'
-import NotFound from './view/others/404'
-import NotEnvironment from './view/others/notEnvironment'
+import Project from './view/project/project';
+import Task from './view/task/task';
+import NotFound from './view/others/404';
+import NotEnvironment from './view/others/notEnvironment';
 
 var config = '';
 
@@ -40,6 +41,7 @@ if (config !== "") {
         <BrowserRouter>
             <Switch>
                 <Route path="/" component={Main} exact />
+                <Route path="/login" component={Login} />
                 <Route path="/project/:projectId" component={Project} />
                 <Route path="/task/:projectId/:taskId" component={Task} />
                 <Route path='*' component={NotFound} />

@@ -13,9 +13,17 @@ class Main extends Component {
     };
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    let user = await firebase.auth().currentUser;
+    let email = user;
+    console.log(email);
+    /* if (!user) {
+       window.location.href = "/login";
+       return;
+     }*/
+
     var db = firebase.database();
-    var ref = db.ref("user/RDfOBwn0IBTetKL2kVwep2zrSRm2/project");
+    var ref = db.ref("user/0SB26bRlqVRaLTNrqzRNBg0JaDQ2/project");
 
     ref.on("value", (snapshot) => {
       const response = snapshot.val();
@@ -33,8 +41,13 @@ class Main extends Component {
       this.setState({
         projects: projectArray,
       });
-    }, (errorObject) => {
-      alert("The read failed: " + errorObject.code);
+    }, (error) => {
+      if (error.code === 'PERMISSION_DENIED') {
+        window.location.href = "/login";
+        return;
+      } else {
+        alert(`${error.code}: ${error.message}`);
+      }
     });
   }
 
