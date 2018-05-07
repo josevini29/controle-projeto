@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import renderHTML from 'react-render-html';
 
-import NavBar from '../../util/navbar';
 import { isPropried } from '../../util/libObject';
 import ModalComponent from './ModalComponent';
 
@@ -55,7 +54,6 @@ class Task extends Component {
     render() {
         return (
             <div>
-                <NavBar />
                 <div className="container-fluid">
                     <h4 className="m-3 text-center">Tarefa: {this.state.taskId} - {this.state.description}</h4>
                     <div className="breadcrumb" style={style.lineSeparator}></div>

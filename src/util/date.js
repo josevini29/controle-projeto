@@ -7,7 +7,7 @@ export function getDateNowJSON() {
     dataDesc += returnValue(data.getHours().toString());
     dataDesc += returnValue(data.getMinutes().toString());
     dataDesc += returnValue(data.getSeconds().toString());
-    return dataDesc;
+    return parseInt(dataDesc);
 }
 
 function returnValue(valor) {

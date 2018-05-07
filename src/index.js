@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import * as firebase from 'firebase';
 
 import Login from './view/auth/login';
@@ -10,6 +11,8 @@ import Project from './view/project/project';
 import Task from './view/task/task';
 import NotFound from './view/others/404';
 import NotEnvironment from './view/others/notEnvironment';
+
+injectTapEventPlugin();
 
 var config = '';
 
@@ -46,7 +49,7 @@ if (config !== "") {
                 <Route path="/task/:projectId/:taskId" component={Task} />
                 <Route path='*' component={NotFound} />
             </Switch>
-        </ BrowserRouter>
+        </BrowserRouter>
         , document.getElementById('root'));
     registerServiceWorker();
 

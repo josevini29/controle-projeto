@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import { Link } from 'react-router-dom'
 
-import NavBar from '../../util/navbar';
 import { formatDateJSONtoBR } from '../../util/date';
 import { isPropried, getTaskStatus } from '../../util/libObject';
 
@@ -56,7 +55,6 @@ class Project extends Component {
     render() {
         return (
             <div>
-                <NavBar />
                 <div className="container-fluid">
                     <h4 className="m-3 text-center">Projeto: {this.state.projectId} - {this.state.name}</h4>
                     <div className="breadcrumb" style={style.lineSeparator}></div>

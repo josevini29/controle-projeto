@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
+import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
+import Divider from 'material-ui/Divider';
 
-import NavBar from '../../util/navbar'
+import Root from '../root/root'
 import CardProject from './cardProject/cardProject'
+import FloatingButtonAdd from '../components/floatingButtonAdd';
+import FormRegisterProject from './registerProject';
 
 class Main extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      inOpenFormRegisterProject: false,
+      projectRegister: {
+        cdProject: '',
+        nmProject: '',
+        goalProject: '',
+        dtModification: '',
+        status: '',
+      },
       projects: [],
     };
+
+    this.handleOpenFormRegisterProjectEdit = this.handleOpenFormRegisterProjectEdit.bind(this);
+    this.handleOpenFormRegisterProject = this.handleOpenFormRegisterProject.bind(this);
+    this.handleCloseFormRegisterProject = this.handleCloseFormRegisterProject.bind(this);
   }
 
   async componentWillMount() {
-    let user = await firebase.auth().currentUser;
+    /*let user = await firebase.auth().currentUser;
     let email = user;
     console.log(email);
-    /* if (!user) {
+     if (!user) {
        window.location.href = "/login";
        return;
      }*/
@@ -51,48 +69,96 @@ class Main extends Component {
     });
   }
 
+  handleOpenFormRegisterProjectEdit = (project) => {
+    this.setState({
+      inOpenFormRegisterProject: true,
+      projectRegister: {
+        cdProject: project.projectId,
+        nmProject: project.name,
+        goalProject: project.description,
+        dtModification: project.dateModification,
+        status: '',
+      }
+    });
+  }
+
+  handleOpenFormRegisterProject = () => {
+    this.setState({
+      inOpenFormRegisterProject: true,
+      projectRegister: {
+        cdProject: '',
+        nmProject: '',
+        goalProject: '',
+        dtModification: '',
+        status: '',
+      }
+    });
+  }
+
+  handleCloseFormRegisterProject = () => {
+    this.setState({
+      inOpenFormRegisterProject: false
+    });
+  }
+
   render() {
     return (
-      <div>
-        <NavBar />
-        <div className="container-fluid">
-          <h3 className="m-2 breadcrumb">Projetos</h3>
-          <h4 className="m-3 text-center">Pendentes</h4>
-          <div className="breadcrumb" style={style.lineSeparator}></div>
-          <div className="row">
-            {this.state.projects.map(project => (
+      <Root>
+        <Paper elevation={4} style={style.paperTitle}>
+          <Typography variant="headline" component="h3">
+            Projetos
+          </Typography>
+        </Paper>
+        <div style={style.container}>
+          <Typography variant="subheading" style={style.textStatus}>
+            Pendentes
+          </Typography>
+          <Divider style={style.divider} />
+          <Grid container spacing={24}>
+            {this.state.projects.map((project, index) => (
               project.status === 1 ?
-                <div key={project.projectId} className="col-md-3">
-                  <CardProject project={project} />
-                </div> : null
+                <Grid item key={index} xs={12} sm={3} md={3} lg={3} xl={2}>
+                  <CardProject project={project} onEdit={this.handleOpenFormRegisterProjectEdit} />
+                </Grid> : null
             ))}
-          </div>
-          <div className="breadcrumb" style={style.lineSeparator}></div>
-          <h4 className="m-3 text-center">Implantados</h4>
-          <div className="row">
-            {this.state.projects.map(project => (
+          </Grid>
+          <Typography variant="subheading" style={style.textStatus}>
+            Implantados
+          </Typography>
+          <Divider style={style.divider} />
+          <Grid container spacing={24}>
+            {this.state.projects.map((project, index) => (
               project.status === 2 ?
-                <div key={project.projectId} className="col-sm-12 col-md-3 col-lg-3">
-                  <CardProject project={project} />
-                </div> : null
+                <Grid item key={index} xs={12} sm={3} md={3} lg={3} xl={2}>
+                  <CardProject project={project} onEdit={this.handleOpenFormRegisterProjectEdit} />
+                </Grid> : null
             ))}
-          </div>
+          </Grid>
+          <FloatingButtonAdd onClick={this.handleOpenFormRegisterProject} />
+          <FormRegisterProject inOpen={this.state.inOpenFormRegisterProject} project={this.state.projectRegister} onClose={this.handleCloseFormRegisterProject} />
         </div>
-      </div>
+      </Root>
     );
   }
 }
 
 const style = {
+  container: {
+    padding: '15px',
+  },
   btnAction: {
     marginLeft: '1rem',
   },
-  lineSeparator: {
-    height: '1px',
-    padding: '0px',
-    backgroundColor: '#000',
-    margin: '15px',
+  divider: {
+    marginTop: '15px',
+    marginBottom: '15px',
   },
+  paperTitle: {
+    padding: 10,
+  },
+  textStatus: {
+    margin: '10px',
+  }
 };
 
 export default Main;

@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
+import Grid from 'material-ui/Grid';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
 
-const LogoProject = require('../../img/project.png');
+import FloatingMessage from '../components/floatingMessage';
+
+//const LogoProject = require('../../img/project.png');
 
 class Login extends Component {
 
@@ -20,7 +25,9 @@ class Login extends Component {
 
     }
 
-    handleSignIn(event) {
+    handleSubmit = (event) => {
+        event.preventDefault();
+
         const { email, password } = this.state;
         if (email === '') {
             this.setState({ cdMessage: 3 });
@@ -48,38 +55,44 @@ class Login extends Component {
         }
 
         return (
-            <div style={style.body}>
-                <div className="col-md-3">
-                    <div className="form-signin">
-                        <div className="text-center mb-3">
-                            <img className="mb-4" src={LogoProject} alt="Controle de Projeto" width="72" height="72" />
-                            <h1 className="h3 mb-3 font-weight-normal">Controle Alterações</h1>
-                        </div>
-
-                        <div className="form-label-group my-3">
-                            <input value={this.state.email} onChange={(evt) => this.setState({ email: evt.target.value })} type="email" id="inputEmail" className="form-control" placeholder="E-mail" required />
-                        </div>
-
-                        <div className="form-label-group my-3">
-                            <input value={this.state.password} onChange={(evt) => this.setState({ password: evt.target.value })} type="password" id="inputPassword" className="form-control" placeholder="Senha" required />
-                        </div>
-
-                        <div className="checkbox mb-3">
-                            <label>
-                                <input type="checkbox" value="remember-me" /> Lembrar-me?
-                            </label>
-                        </div>
-                        <button className="btn btn-lg btn-primary btn-block" onClick={() => this.handleSignIn()}>Entrar</button>
-                        <p className="mt-5 mb-3 text-muted text-center">&copy; 2018-2019</p>
-                    </div>
-                    {this.state.cdMessage !== 0 ?
-                        <div className="alert alert-danger" role="alert">
-                            {message[this.state.cdMessage].message}
-                        </div>
-                        : null
-                    }
+            <Grid container style={style.body} spacing={12}>
+                <div style={style.divForm}>
+                    <form onSubmit={this.handleSubmit} style={style.form}>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={style.gridItem}>
+                            <TextField
+                                required
+                                autoFocus
+                                margin="dense"
+                                label="E-mail"
+                                type="email"
+                                fullWidth
+                                value={this.state.email}
+                                onChange={(event) => this.setState({ email: event.target.value })}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={style.gridItem}>
+                            <TextField
+                                required
+                                margin="dense"
+                                label="Senha"
+                                type="password"
+                                fullWidth
+                                value={this.state.password}
+                                onChange={(event) => this.setState({ password: event.target.value })}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} style={style.gridButton}>
+                            <Button variant="raised" color="primary" type="submit" fullWidth>
+                                Entrar
+                        </Button>
+                            {this.state.cdMessage !== 0 ?
+                                <FloatingMessage message={message[this.state.cdMessage].message} />
+                                : null
+                            }
+                        </Grid>
+                    </form>
                 </div>
-            </div>
+            </Grid>
         );
     }
 }
@@ -92,9 +105,27 @@ const style = {
         alignItems: 'center',
         paddingTop: '40px',
         paddingBottom: '40px',
-        backgroundColor: '#f5f5f5',
         justifyContent: 'center',
     },
+    form: {
+        width: '350px',
+    },
+    divForm: {
+        backgroundColor: '#FFF',
+        height: '50vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        MsFlexAlign: 'center',
+        padding: '10px',
+    },
+    gridItem: {
+        margin: '10px',
+    },
+    gridButton: {
+        margin: '10px',
+        marginTop: '30px',
+    }
 }
 
 const message = {
