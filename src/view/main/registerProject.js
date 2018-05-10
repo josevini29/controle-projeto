@@ -39,7 +39,7 @@ export default class RegisterProject extends React.Component {
     }
 
     handleClose = () => {
-        this.setState({ inOpen: false });
+        this.props.onClose();
     };
 
     handleSubmit = (event) => {
@@ -54,7 +54,7 @@ export default class RegisterProject extends React.Component {
 
         var db = firebase.database();
         var ref = db.ref(`user/0SB26bRlqVRaLTNrqzRNBg0JaDQ2`)
-        ref.child('project').child(this.state.cdProject).set(project);
+        ref.child('project').child(this.state.cdProject).update(project);
 
         this.props.onClose();
     };

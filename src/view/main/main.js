@@ -4,10 +4,14 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
+import Refresh from '@material-ui/icons/Refresh';
+import Tooltip from 'material-ui/Tooltip';
 
 import Root from '../root/root'
 import CardProject from './cardProject/cardProject'
 import FloatingButtonAdd from '../components/floatingButtonAdd';
+//import CircleProgress from '../components/circleProgress';
 import FormRegisterProject from './registerProject';
 
 class Main extends Component {
@@ -31,19 +35,23 @@ class Main extends Component {
     this.handleCloseFormRegisterProject = this.handleCloseFormRegisterProject.bind(this);
   }
 
-  async componentWillMount() {
-    /*let user = await firebase.auth().currentUser;
-    let email = user;
-    console.log(email);
-     if (!user) {
-       window.location.href = "/login";
-       return;
-     }*/
+  async getUid() {
+    let user = await firebase.auth().currentUser;
+    //let uid = await user.uid;
+    console.log(user);
+  }
 
+  componentDidMount() {
+
+    /* if (!user) {
+       window.location.href = "/login";
+        return;
+     }*/
+    this.getUid();
     var db = firebase.database();
     var ref = db.ref("user/0SB26bRlqVRaLTNrqzRNBg0JaDQ2/project");
 
-    ref.on("value", (snapshot) => {
+    ref.once("value", (snapshot) => {
       const response = snapshot.val();
       let projectArray = [];
       for (const projectRes in response) {
@@ -99,15 +107,25 @@ class Main extends Component {
     this.setState({
       inOpenFormRegisterProject: false
     });
+    this.componentWillMount();
   }
 
   render() {
     return (
       <Root>
         <Paper elevation={4} style={style.paperTitle}>
-          <Typography variant="headline" component="h3">
+          <Typography variant="headline" style={style.textCab}>
             Projetos
           </Typography>
+          <Tooltip title="Atualizar página">
+            <IconButton
+              aria-haspopup="true"
+              onClick={() => this.componentWillMount()}
+              color="inherit"
+            >
+              <Refresh />
+            </IconButton>
+          </Tooltip>
         </Paper>
         <div style={style.container}>
           <Typography variant="subheading" style={style.textStatus}>
@@ -134,7 +152,7 @@ class Main extends Component {
                 </Grid> : null
             ))}
           </Grid>
-          <FloatingButtonAdd onClick={this.handleOpenFormRegisterProject} />
+          <FloatingButtonAdd onClick={this.handleOpenFormRegisterProject} tooltip="Novo Projeto" />
           <FormRegisterProject inOpen={this.state.inOpenFormRegisterProject} project={this.state.projectRegister} onClose={this.handleCloseFormRegisterProject} />
         </div>
       </Root>
@@ -155,9 +173,16 @@ const style = {
   },
   paperTitle: {
     padding: 10,
+    display: 'flex',
+    aligItems: 'center',
   },
   textStatus: {
     margin: '10px',
+  },
+  textCab: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
   }
 };
 
