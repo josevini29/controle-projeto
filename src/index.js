@@ -25,7 +25,10 @@ if (document.domain === 'controle-projeto.firebaseapp.com') { //Production
         storageBucket: "controle-projeto.appspot.com",
         messagingSenderId: "793685034348"
     };
-} else if (document.domain === 'controle-projeto-des.firebaseapp.com' || document.domain === 'localhost' || document.domain === '192.168.0.100') { //development
+} else if (document.domain === 'controle-projeto-des.firebaseapp.com'
+    || document.domain === 'localhost'
+    || document.domain === '192.168.0.100'
+    || document.domain === 'projapp.viniciusdev.info') { //development
     config = {
         apiKey: "AIzaSyAK4nntcA3R5NNxGn6woYkl7F5yiyHLDLo",
         authDomain: "controle-projeto-des.firebaseapp.com",
